@@ -1,21 +1,36 @@
-require IEx
-
 defmodule VideoGrafikart.Video do
 
+  @doc """
+  Permet de renvoyer une vidéo
+  """
+  @spec send_video(Plug.Conn.t, String.t, []) :: Plug.Conn.t
   def send_video(conn, path, headers) do
-    full_path = get_video_path(path)
-    offset = get_offset(headers)
-    case get_file_size(full_path) do
-      :error ->
-        conn
-          |> Plug.Conn.resp(404, "video not found")
-          |> Plug.Conn.halt()
-      file_size ->
-        conn
-          |> Plug.Conn.put_resp_header("content-type", "video/mp4")
-          |> Plug.Conn.put_resp_header("content-range", "bytes #{offset}-#{file_size - 1}/#{file_size}")
-          |> Plug.Conn.send_file(206, full_path, offset, file_size - offset)
+    if is_valid?(path) do
+      full_path = get_video_path(path)
+      offset = get_offset(headers)
+      case get_file_size(full_path) do
+        :error ->
+          conn |> Plug.Conn.resp(404, "video not found")
+        file_size ->
+          conn
+            |> Plug.Conn.put_resp_header("content-type", "video/mp4")
+            |> Plug.Conn.put_resp_header("content-range", "bytes #{offset}-#{file_size - 1}/#{file_size}")
+            |> Plug.Conn.send_file(206, full_path, offset, file_size - offset)
+      end
+    else
+      conn |> Plug.Conn.resp(404, "video not found")
     end
+  end
+
+  @doc """
+  Permet de vérifier si le chemin d'une vidéo valide
+  """
+  @spec is_valid?(String.t) :: boolean
+  def is_valid?(path) do
+     case Regex.run(~r/^([a-z0-9-_ ]+\/)?[a-z0-9-_ ]+\.(mp4|mov)$/i, path) do
+        nil -> false
+        _ -> true
+     end
   end
 
   # Renvois le chemin d'une vidéo'

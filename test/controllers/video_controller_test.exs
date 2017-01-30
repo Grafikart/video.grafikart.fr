@@ -2,8 +2,7 @@ defmodule VideoGrafikart.VideoControllerTest do
 
   use VideoGrafikart.ConnCase
 
-  @stream_url "/api/videos/stream?path=fake.mp4"
-  @fake_file_stream_url "/api/videos/stream?path=../test_helper.exs"
+  import VideoGrafikart.Router.Helpers, only: [video_path: 3]
 
   defp now do
      DateTime.utc_now() |> DateTime.to_unix()
@@ -18,17 +17,19 @@ defmodule VideoGrafikart.VideoControllerTest do
   end
 
   test "it should refuse connection without the right JWT", %{conn: conn} do
-    conn = get conn, @stream_url <> "&token=aze"
+    conn = get conn, video_path(conn, :stream, path: "fake.mp4", token: "fake_token")
     assert text_response(conn, 401)
   end
 
   test "it should reject people that are not premiums", %{conn: conn} do
-    conn = get conn, @stream_url <> "&token=" <> jwt(%{premium: now() - 1000})
+    path = video_path conn, :stream, path: "fake.mp4", token: jwt(%{premium: now() - 1000})
+    conn = get conn, path
     assert response(conn, 401)
   end
 
   test "it should accept a valid JWT", %{conn: conn} do
-    conn = get conn, @stream_url <> "&token=" <> jwt(%{premium: now() + 1000})
+    path = video_path conn, :stream, path: "fake.mp4", token: jwt(%{premium: now() + 1000})
+    conn = get conn, path
     %{resp_headers: resp_headers} = conn
     assert response(conn, 206)
     assert {"content-range", "bytes 0-5/6"} in resp_headers
@@ -36,7 +37,8 @@ defmodule VideoGrafikart.VideoControllerTest do
   end
 
   test "it should detect if a file doesn't exist", %{conn: conn} do
-    conn = get conn, @fake_file_stream_url <> "&token=" <> jwt(%{premium: now() + 1000})
+    path = video_path conn, :stream, path: "../test_helper.exs", token: jwt(%{premium: now() + 1000})
+    conn = get conn, path
     assert response(conn, 404)  =~ "not found"
   end
 
