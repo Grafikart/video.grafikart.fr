@@ -8,3 +8,5 @@ config :video_grafikart, VideoGrafikart.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :video_grafikart, :video_path, "test/data/"

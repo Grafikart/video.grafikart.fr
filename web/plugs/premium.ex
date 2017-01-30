@@ -22,7 +22,7 @@ defmodule VideoGrafikart.Plugs.Premium do
 
   defp handle_error(conn) do
     conn
-      |> Plug.Conn.resp(403, "not premium")
+      |> Plug.Conn.resp(401, "not premium")
       |> Plug.Conn.halt()
   end
 
