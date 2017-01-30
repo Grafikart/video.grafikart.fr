@@ -22,7 +22,7 @@ config :video_grafikart, :video_path, "/home/jonathan/Sites/Grafikart.fr/downloa
 
 config :guardian, Guardian,
   allowed_algos: ["HS256"], # optional
-  verify_module: Guardian.JWT,  # optional
+  verify_module: VideoGrafikart.Guardian.ClaimValidation,  # optional
   issuer: "Grafikart",
   ttl: { 1, :days },
   allowed_drift: 2000,

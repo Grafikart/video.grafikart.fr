@@ -27,6 +27,12 @@ defmodule VideoGrafikart.VideoControllerTest do
     assert response(conn, 401)
   end
 
+  test "it should reject jwt without tokens", %{conn: conn} do
+    path = video_path conn, :stream, path: "fake.mp4", token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0ODU4MTI0MTIsImlzcyI6IkdyYWZpa2FydCIsImp0aSI6IjJjYWZiY2VmLThlNmUtNGIwZC04MmU4LTM3ZTQwMzgwZjk1MiIsInByZW1pdW0iOjE0OTA4MTM0MTIsInR5cCI6ImFjY2VzcyJ9.jVFibFtlCJ68HTqLvrXKN98Xs7qoi3y0KLUxynlEvV0"
+    conn = get conn, path
+    assert response(conn, 401)
+  end
+
   test "it should accept a valid JWT", %{conn: conn} do
     path = video_path conn, :stream, path: "fake.mp4", token: jwt(%{premium: now() + 1000})
     conn = get conn, path
