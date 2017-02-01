@@ -36,6 +36,7 @@ defmodule VideoGrafikart.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:guardian, "~> 0.14"},
+      {:distillery, "~> 1.1"},
       {:mix_test_watch, "~> 0.2", only: :dev}
    ]
   end

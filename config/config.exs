@@ -18,7 +18,7 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :video_grafikart, :video_path, "/home/jonathan/Sites/Grafikart.fr/downloads/videos/"
+config :video_grafikart, :video_path, "data/"
 
 config :guardian, Guardian,
   allowed_algos: ["HS256"], # optional
@@ -27,7 +27,7 @@ config :guardian, Guardian,
   ttl: { 1, :days },
   allowed_drift: 2000,
   verify_issuer: true,
-  secret_key: "secret",
+  secret_key: System.get_env("JWT_SECRET") || "secret",
   serializer: VideoGrafikart.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom

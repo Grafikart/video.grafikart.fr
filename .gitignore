@@ -5,6 +5,7 @@
 /*.ez
 .idea
 *.iml
+/data
 
 # Generated on crash by the VM
 erl_crash.dump
