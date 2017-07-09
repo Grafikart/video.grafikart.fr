@@ -23,6 +23,7 @@ defmodule VideoGrafikart.Mixfile do
         :phoenix_pubsub,
         :phoenix_html,
         :cowboy,
+        :phoenix_ecto,
         :logger,
         :gettext,
         :guardian,
