@@ -9,7 +9,8 @@ defmodule VideoGrafikart do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the endpoint when the application starts
-      supervisor(VideoGrafikart.Endpoint, []),
+      supervisor(VideoGrafikart.Repo, []),
+      supervisor(VideoGrafikart.Endpoint, [])
       # Start your own worker by calling: VideoGrafikart.Worker.start_link(arg1, arg2, arg3)
       # worker(VideoGrafikart.Worker, [arg1, arg2, arg3]),
     ]

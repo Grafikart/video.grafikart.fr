@@ -16,8 +16,22 @@ defmodule VideoGrafikart.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {VideoGrafikart, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :guardian]]
+    [
+      mod: {VideoGrafikart, []},
+      applications: [
+        :phoenix,
+        :phoenix_pubsub,
+        :phoenix_html,
+        :cowboy,
+        :logger,
+        :gettext,
+        :guardian,
+        :httpoison,
+        :poison,
+        :mariaex,
+        :toniq
+      ]
+    ]
   end
 
   # Specifies which paths to compile per environment.
@@ -32,12 +46,16 @@ defmodule VideoGrafikart.Mixfile do
       {:phoenix, "~> 1.2.1"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.6"},
+      {:phoenix_ecto, "~> 3.0"},
+      {:mariaex, ">= 0.0.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:guardian, "~> 0.14"},
       {:distillery, "~> 1.1"},
-      {:mix_test_watch, "~> 0.2", only: :dev}
+      {:mix_test_watch, "~> 0.2", only: :dev},
+      {:httpoison, "~> 0.12.0"},
+      {:toniq, "~> 1.2"}
    ]
   end
 end

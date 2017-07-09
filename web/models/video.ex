@@ -38,7 +38,9 @@ defmodule VideoGrafikart.Video do
     trimmed_path = path
       |> String.trim(".")
       |> String.trim("/")
-    Application.get_env(:video_grafikart, :video_path) |> Path.join(trimmed_path)
+    Application.get_env(:video_grafikart, :paths)
+      |> Keyword.get(:video)
+      |> Path.join(trimmed_path)
   end
 
   # Renvois la taille du fichier

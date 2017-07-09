@@ -13,6 +13,18 @@ config :video_grafikart, VideoGrafikart.Endpoint,
   check_origin: false,
   watchers: []
 
+config :video_grafikart, :vidme,
+  access_token: "XXXXXXXXXXX"
+
+config :video_grafikart, :paths,
+  video: "/home/jonathan/videos/",
+  thumbnail: "/home/jonathan/tutoriels/"
+
+config :video_grafikart, VideoGrafikart.Repo,
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "root",
+  database: "grafikart_dev"
 
 # Watch static and templates for browser reloading.
 config :video_grafikart, VideoGrafikart.Endpoint,

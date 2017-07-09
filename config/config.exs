@@ -18,7 +18,7 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :video_grafikart, :video_path, "data/"
+config :toniq, retry_strategy: VideoGrafikart.RetryOnce
 
 config :guardian, Guardian,
   allowed_algos: ["HS256"], # optional

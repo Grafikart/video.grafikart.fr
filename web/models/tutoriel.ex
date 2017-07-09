@@ -1,0 +1,99 @@
+defmodule VideoGrafikart.Tutoriel do
+
+  use VideoGrafikart.Web, :model
+
+  alias VideoGrafikart.Category
+  alias VideoGrafikart.Formation
+
+  schema "tutoriels" do
+    field :name, :string
+    field :video, :string
+    field :content, :string
+    field :slug, :string
+    field :vidme_id, :string
+    field :vidme_url, :string
+    field :user_id, :integer
+    field :premium, :boolean
+
+    belongs_to :category, Category
+    belongs_to :formation, Formation
+  end
+
+  @doc """
+  Renvoie le titre d'un tutoriel
+  """
+  @spec title(%__MODULE__{name: String.t, category: %Category{name: String.t}}):: String.t
+  def title(tutoriel = %__MODULE__{name: name, category: %Category{name: category}}) do
+    if tutoriel.formation do
+      "#{tutoriel.formation.name} : #{name}"
+    else
+      "Tutoriel #{category} : #{name}"
+    end
+  end
+
+  @spec description(%__MODULE__{}):: String.t
+  def description(tutoriel) do
+    """
+    Plus d'infos sur ce tutoriel : #{url(tutoriel)}
+
+    #{first_paragraph(tutoriel)}
+
+    Plus de tutoriels : https://www.grafikart.fr
+    """
+  end
+
+  @doc """
+  Renvoie l'url d'un tutoriel
+  """
+  @spec url(%__MODULE__{slug: String.t, id: integer, category: %Category{slug: String.t}}):: String.t
+  def url(tutoriel = %__MODULE__{slug: slug, id: id, category: %Category{slug: category_slug}}) do
+    ids = Integer.to_string(id)
+    if tutoriel.formation do
+      "https://www.grafikart.fr/formations/#{tutoriel.formation.slug}/#{slug}"
+    else
+      "https://www.grafikart.fr/tutoriels/#{category_slug}/#{slug}-#{ids}"
+    end
+  end
+
+  @doc """
+  Renvoie le chemin du fichier contenant la miniature
+  """
+  @spec video_path(%__MODULE__{video: String.t}):: String.t
+  def video_path(%__MODULE__{video: video}) do
+    Application.get_env(:video_grafikart, :paths)
+      |> Keyword.get(:video)
+      |> Path.join(video)
+  end
+
+  @doc """
+  Renvoie le chemin du fichier contenant la miniature
+  """
+  @spec thumbnail_path(%__MODULE__{id: integer}):: String.t
+  def thumbnail_path(%__MODULE__{id: id}) do
+    thumbnail_name = Integer.to_string(id) <> ".jpg"
+    directory = id |> Kernel.div(1000) |> Kernel.+(1) |> Integer.to_string()
+    Application.get_env(:video_grafikart, :paths)
+      |> Keyword.get(:thumbnail)
+      |> Path.join(directory)
+      |> Path.join(thumbnail_name)
+  end
+
+  @doc """
+  Renvoie le premier paragraphe du contenu
+  """
+  @spec thumbnail_path(%__MODULE__{content: String.t}):: String.t
+  def first_paragraph(%__MODULE__{content: content}) do
+    content |> String.split("\r\n\r\n") |> List.first
+  end
+
+  @doc """
+  Renvoie le changeset
+  """
+  @spec changeset(struct, struct):: Ecto.Changeset.t
+  def changeset(struct, params \\ %{}) do
+    struct |> cast(params, [:vidme_id, :vidme_url])
+  end
+
+
+
+end
