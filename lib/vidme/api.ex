@@ -12,20 +12,16 @@ defmodule Vidme.API do
   def upload(video) do
     {:ok, %{body: body}} = post(
       "video/upload",
-      {:multipart, [{:file, video.file, {"form-data", [name: "filedata", filename: Path.basename(video.file)]}, []}]},
-      [recv_timeout: 30000]
-    )
-    %{"id" => video_id, "code" => video_url} = Poison.decode!(body)
-    {:ok, _} = post(
-      "video/edit",
       {:multipart, [
         {"title", video.title},
         {"description", video.description},
-        {"video", video_id},
         {"private", "0"},
+        {:file, video.file, {"form-data", [name: "filedata", filename: Path.basename(video.file)]}, []},
         {:file, video.thumbnail, {"form-data", [name: "thumbnail", filename: Path.basename(video.thumbnail)]}, []}
-      ]}
+      ]},
+      [recv_timeout: 30000]
     )
+    %{"id" => video_id, "code" => video_url} = Poison.decode!(body)
     {:ok, %{vidme_id: video_id, vidme_url: video_url}}
   end
 
