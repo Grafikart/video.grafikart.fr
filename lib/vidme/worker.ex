@@ -3,6 +3,8 @@ defmodule Vidme.Worker do
   Worker responsable de l'envoie d'une vidéo sur vidme
   """
 
+  require Logger
+
   use Toniq.Worker, max_concurrency: 1
 
   alias VideoGrafikart.Tutoriel
@@ -13,7 +15,7 @@ defmodule Vidme.Worker do
   """
   @spec perform(%VideoGrafikart.Tutoriel{}):: atom
   def perform(tutoriel) do
-    IO.puts("...Sending tutoriel " <> tutoriel.name)
+    Logger.info("...Sending tutoriel " <> tutoriel.name)
     {:ok, params} = Vidme.API.upload(%{
       title: Tutoriel.title(tutoriel),
       description: Tutoriel.description(tutoriel),
@@ -21,7 +23,7 @@ defmodule Vidme.Worker do
       thumbnail: Tutoriel.thumbnail_path(tutoriel)
     })
     Repo.update(Tutoriel.changeset(tutoriel, params))
-    IO.puts("Finished Sending " <> tutoriel.name)
+    Logger.info("Finished Sending " <> tutoriel.name)
   end
 
 end

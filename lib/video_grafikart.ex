@@ -9,11 +9,14 @@ defmodule VideoGrafikart do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the endpoint when the application starts
-      supervisor(VideoGrafikart.Repo, []),
       supervisor(VideoGrafikart.Endpoint, [])
       # Start your own worker by calling: VideoGrafikart.Worker.start_link(arg1, arg2, arg3)
       # worker(VideoGrafikart.Worker, [arg1, arg2, arg3]),
     ]
+
+    if Mix.env != :test do
+      children = children ++ [supervisor(VideoGrafikart.Repo, [])]
+    end
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options

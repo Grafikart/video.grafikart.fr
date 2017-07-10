@@ -6,6 +6,8 @@
 *.iml
 /data
 
+error.log
+
 erl_crash.dump
 
 /config/prod.secret.exs
