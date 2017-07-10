@@ -6,6 +6,26 @@ defmodule Vidme.API do
   use HTTPoison.Base
 
   @doc """
+  Permet de supprimer toutes les vidéos
+  """
+  @spec delete_all():: []
+  def delete_all() do
+    {:ok, %{body: body}} = get("videos/list?user=16979442&limit=461")
+    %{"videos" => videos} = Poison.decode!(body)
+    ids = videos |> Enum.map(&Map.get(&1, "video_id")) |> Enum.map(&delete(&1))
+  end
+
+  @doc """
+  Supprimer une vidéo VidMe
+  """
+  @spec delete(String.t):: :ok
+  def delete(video_id) when is_binary(video_id) do
+    :timer.sleep(100)
+    {:ok, %{body: body}} = post("video/#{video_id}/delete", {:form, [video: video_id]})
+    :ok
+  end
+
+  @doc """
   Permet d'uploader une video auprès de l'API
   """
   @spec upload(%{title: String.t, file: String.t, description: String.t, }):: {:ok, %{vidme_id: String.t, vidme_url: String.t}}

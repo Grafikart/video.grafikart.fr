@@ -3,7 +3,7 @@ defmodule Vidme.Worker do
   Worker responsable de l'envoie d'une vidéo sur vidme
   """
 
-  use Toniq.Worker, max_concurrency: 5
+  use Toniq.Worker, max_concurrency: 1
 
   alias VideoGrafikart.Tutoriel
   alias VideoGrafikart.Repo
