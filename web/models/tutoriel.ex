@@ -34,11 +34,11 @@ defmodule VideoGrafikart.Tutoriel do
   @spec description(%__MODULE__{}):: String.t
   def description(tutoriel) do
     """
-    Plus d'infos sur ce tutoriel : #{url(tutoriel)}
+    Plus d'infos : #{url(tutoriel)}
 
     #{first_paragraph(tutoriel)}
 
-    Plus de tutoriels : https://www.grafikart.fr
+    Retrouvez tous les tutoriels sur https://www.grafikart.fr
     """
   end
 

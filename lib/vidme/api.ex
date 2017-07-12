@@ -6,29 +6,17 @@ defmodule Vidme.API do
   use HTTPoison.Base
 
   @doc """
-  Permet de supprimer toutes les vidéos
-  """
-  @spec delete_all():: []
-  def delete_all() do
-    {:ok, %{body: body}} = get("videos/list?user=16979442&limit=461")
-    %{"videos" => videos} = Poison.decode!(body)
-    ids = videos |> Enum.map(&Map.get(&1, "video_id")) |> Enum.map(&delete(&1))
-  end
-
-  @doc """
   Supprimer une vidéo VidMe
   """
   @spec delete(String.t):: :ok
   def delete(video_id) when is_binary(video_id) do
-    :timer.sleep(100)
-    {:ok, %{body: body}} = post("video/#{video_id}/delete", {:form, [video: video_id]})
-    :ok
+    post("video/#{video_id}/delete", {:form, [video: video_id]})
   end
 
   @doc """
   Permet d'uploader une video auprès de l'API
   """
-  @spec upload(%{title: String.t, file: String.t, description: String.t, }):: {:ok, %{vidme_id: String.t, vidme_url: String.t}}
+  @spec upload(%{title: String.t, video: String.t, description: String.t}):: {:ok, %{vidme_id: String.t, vidme_url: String.t}}
   def upload(video) do
     {:ok, %{body: body}} = post(
       "video/upload",
@@ -36,13 +24,22 @@ defmodule Vidme.API do
         {"title", video.title},
         {"description", video.description},
         {"private", "0"},
-        {:file, video.file, {"form-data", [name: "filedata", filename: Path.basename(video.file)]}, []},
-        {:file, video.thumbnail, {"form-data", [name: "thumbnail", filename: Path.basename(video.thumbnail)]}, []}
+        {"source", "computer"},
+        {:file, video.video, {"form-data", [name: "filedata", filename: Path.basename(video.video)]}, []},
       ]},
       [recv_timeout: 30000]
     )
-    %{"id" => video_id, "code" => video_url} = Poison.decode!(body)
-    {:ok, %{vidme_id: video_id, vidme_url: video_url}}
+  end
+
+  @doc """
+  Permet d'ajouter une thumbnail a une vidéo
+  """
+  @spec thumbnail(String.t, String.t):: tuple
+  def thumbnail(video_id, thumbnail) do
+    post("video/#{video_id}/thumbnail",{:multipart, [
+      {"video", video_id},
+      {:file, thumbnail, {"form-data", [name: "thumbnail", filename: Path.basename(thumbnail)]}, []}
+    ]})
   end
 
   defp process_url(url) do
@@ -53,5 +50,7 @@ defmodule Vidme.API do
     access_token = Application.get_env(:video_grafikart, :vidme) |> Keyword.get(:access_token)
     headers ++ ["AccessToken": access_token]
   end
+
+  defp process_response_body(body), do: Poison.decode!(body)
 
 end

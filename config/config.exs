@@ -18,7 +18,13 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :toniq, retry_strategy: VideoGrafikart.RetryOnce
+# config :logger,
+#   backends: [:console, {LoggerFileBackend, :error_log}],
+#   format: "[$level] $message\n"
+#
+# config :logger, :error_log,
+#   path: "error.log",
+#   level: :info
 
 config :guardian, Guardian,
   allowed_algos: ["HS256"], # optional

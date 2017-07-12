@@ -30,7 +30,8 @@ defmodule VideoGrafikart.Mixfile do
         :httpoison,
         :poison,
         :mariaex,
-        :toniq
+        :toniq,
+        :logger_file_backend
       ]
     ]
   end
@@ -44,6 +45,7 @@ defmodule VideoGrafikart.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:logger_file_backend, "~> 0.0.10"},
       {:phoenix, "~> 1.2.1"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.6"},

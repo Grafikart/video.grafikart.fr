@@ -3,7 +3,7 @@ defmodule VideoGrafikart.Router do
 
   pipeline :browser do
     plug :accepts, ["html"]
-    plug :protect_from_forgery
+    # plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
 
@@ -12,8 +12,11 @@ defmodule VideoGrafikart.Router do
   end
 
   scope "/web", VideoGrafikart do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
     get "/", PageController, :index
+    get "/failed", JobController, :failed
+    post "/failed", JobController, :failed
+    delete "/failed", JobController, :failed
   end
 
   scope "/api", VideoGrafikart do
