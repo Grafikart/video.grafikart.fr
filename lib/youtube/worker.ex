@@ -46,10 +46,13 @@ defmodule Youtube.Worker do
         title: Tutoriel.title(tutoriel),
         description: Tutoriel.description(tutoriel),
         categoryId: "28",
-        defaultLanguage: "FR"
+        defaultLanguage: "fr",
+        defaultAudioLanguage: "fr"
       },
       status: %{
-        privacyStatus: if Map.get(tutoriel, :online, false) do "public" else "unlisted" end
+        privacyStatus: if Map.get(tutoriel, :online, false) do "public" else "unlisted" end,
+        embeddable: true,
+        publicStatsViewable: false
       }
     }
   end

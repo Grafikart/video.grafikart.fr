@@ -21,25 +21,32 @@ defmodule Vidme.Worker do
     # On récupère la vidéo
     tutoriel = Repo.get(Tutoriel, id) |> Repo.preload([:category, :formation])
     thumbnail = Tutoriel.thumbnail_path(tutoriel)
+    video = Tutoriel.video_path(tutoriel)
     # La vidéo n'est pas déjà présente sur vidme
     tutoriel = if is_nil(tutoriel.vidme_id) do
-      # On upload la vidéo
-      %{body: %{"id" => id, "code" => code}} = API.upload(%{
-        title: Tutoriel.title(tutoriel),
-        description: Tutoriel.description(tutoriel),
-        video: Tutoriel.video_path(tutoriel),
-      })
-      # On met à jour la miniature
-      API.thumbnail(id, thumbnail)
-      # On met à jour les identifiants en bdd
-      tutoriel
-        |> Ecto.Changeset.change(%{vidme_id: id, vidme_url: code})
-        |> Repo.update!()
+      if API.can_upload(video) do
+        # On upload la vidéo
+        %{body: %{"id" => id, "code" => code}} = API.upload(%{
+          title: Tutoriel.title(tutoriel),
+          description: Tutoriel.description(tutoriel),
+          video: video,
+          private: if tutoriel.online do "0" else "1" end
+        })
+        # On met à jour la miniature
+        API.thumbnail(id, thumbnail)
+        # On met à jour les identifiants en bdd
+        tutoriel
+          |> Ecto.Changeset.change(%{vidme_id: id, vidme_url: code})
+          |> Repo.update!()
+      else
+        raise "Impossible d'uploader #{tutoriel.name}, Bande passante de Vidme dépassée"
+      end
     else
       # On met à jour les informations
       %{body: _} = API.post!("video/#{tutoriel.vidme_id}/edit", {:multipart, [
         {"title", Tutoriel.title(tutoriel)},
         {"description", Tutoriel.description(tutoriel)},
+        {"private", if tutoriel.online do "0" else "1" end},
         {:file, thumbnail, {"form-data", [name: "thumbnail", filename: Path.basename(thumbnail)]}, []}
       ]})
       tutoriel
