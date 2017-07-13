@@ -8,3 +8,5 @@ otp_release:
   - 19.2
 before_install:
   - cp config/dev.dist.exs config/dev.exs
+  - mysql -e 'CREATE DATABASE grafikart_dev;'
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root

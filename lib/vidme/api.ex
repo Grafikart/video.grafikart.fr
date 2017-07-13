@@ -10,7 +10,7 @@ defmodule Vidme.API do
   """
   @spec delete(String.t):: :ok
   def delete(video_id) when is_binary(video_id) do
-    post("video/#{video_id}/delete", {:form, [video: video_id]})
+    post!("video/#{video_id}/delete", {:form, [video: video_id]})
   end
 
   @doc """
@@ -18,7 +18,7 @@ defmodule Vidme.API do
   """
   @spec upload(%{title: String.t, video: String.t, description: String.t}):: {:ok, %{vidme_id: String.t, vidme_url: String.t}}
   def upload(video) do
-    {:ok, %{body: body}} = post(
+    %{body: body} = post!(
       "video/upload",
       {:multipart, [
         {"title", video.title},
@@ -36,7 +36,7 @@ defmodule Vidme.API do
   """
   @spec thumbnail(String.t, String.t):: tuple
   def thumbnail(video_id, thumbnail) do
-    post("video/#{video_id}/thumbnail",{:multipart, [
+    post!("video/#{video_id}/thumbnail",{:multipart, [
       {"video", video_id},
       {:file, thumbnail, {"form-data", [name: "thumbnail", filename: Path.basename(thumbnail)]}, []}
     ]})

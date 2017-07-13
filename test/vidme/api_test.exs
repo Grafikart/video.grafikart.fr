@@ -2,7 +2,7 @@ defmodule Vidme.APITest do
 
   use VideoGrafikart.ConnCase
 
-  import Ecto.Query, only: [from: 2]
+  # import Ecto.Query, only: [from: 2]
 
   alias Vidme.API
 
@@ -23,7 +23,8 @@ defmodule Vidme.APITest do
   end
 
   test "it should return the body" do
-    Vidme.Worker.perform(892)
+    %{body: %{"videos" => videos}} = API.get!("videos/?user=16979442&limit=1")
+    assert Enum.count(videos) == 1
     # videos = get_videos_from_api() |> Enum.map(())
     # delete_failed()
     # query = from t in VideoGrafikart.Tutoriel, where: not is_nil(t.vidme_id)

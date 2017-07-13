@@ -1,7 +1,13 @@
-<table class="table">
-  <form action="<%= job_path(@conn, :failed) %>" method="post">
-    <button type="submit">Relancer la file d'attente</button>
-  </form>
+<form action="<%= job_path(@conn, :failed) %>" method="post" style="display: inline">
+  <button type="submit" class="btn btn-primary">Relancer la file d'attente</button>
+</form>
+&nbsp;
+<form action="<%= job_path(@conn, :failed) %>" method="post" style="display: inline">
+  <input type="hidden" name="_method" value="DELETE">
+  <button type="submit" class="btn btn-danger">Vider la file d'attente</button>
+</form>
+
+<table class="table table-striped">
   <thead>
   <tr>
     <th>Worker</th>
@@ -14,8 +20,8 @@
   <%= for job <- Toniq.failed_jobs do %>
   <tr>
     <td><%= job.worker %></td>
-    <td><%= job.arguments %></td>
-    <td><%= job.error.__struct__ %>::<%= Poison.encode!(job.error) %></td>
+    <td><%= inspect(job.arguments) %></td>
+    <td><%= inspect(job.error) %></td>
     <td></td>
   <tr>
   <% end %>

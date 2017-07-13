@@ -7,20 +7,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello VideoGrafikart!</title>
+    <title>video.grafikart.fr</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
     <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>

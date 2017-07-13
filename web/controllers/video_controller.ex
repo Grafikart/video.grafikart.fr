@@ -16,17 +16,12 @@ defmodule VideoGrafikart.VideoController do
     Video.send_video(conn, path, headers)
   end
 
-  def sync(conn, %{"token" => token}) do
+  def sync(conn, %{"token" => token, "id" => id}) do
     secret = Application.get_env(:guardian, Guardian) |> Keyword.get(:secret_key)
     if token == secret do
-      query = from t in Tutoriel,
-        where: t.user_id == 1 and t.video != "" and t.premium == false,
-        order_by: [asc: t.id],
-        select: [:id]
-      count = Repo.all(query)
-        |> Enum.map(&Toniq.enqueue(Vidme.Worker, &1.id))
-        |> Enum.count()
-      text conn, "Upload en cours de #{count} videos"
+      Toniq.enqueue(Vidme.Worker, id)
+      Toniq.enqueue(Youtube.Worker, id)
+      conn |> text("Uploading #{id}")
     else
       conn |> Plug.Conn.put_status(500) |> text("forbidden")
     end

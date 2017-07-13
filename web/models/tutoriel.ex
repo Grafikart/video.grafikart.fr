@@ -14,6 +14,8 @@ defmodule VideoGrafikart.Tutoriel do
     field :vidme_url, :string
     field :user_id, :integer
     field :premium, :boolean
+    field :online, :boolean
+    field :youtube, :string
 
     belongs_to :category, Category
     belongs_to :formation, Formation
