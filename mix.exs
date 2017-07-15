@@ -2,14 +2,16 @@ defmodule VideoGrafikart.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :video_grafikart,
-     version: "0.0.1",
-     elixir: "~> 1.2",
-     elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix, :gettext] ++ Mix.compilers,
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :video_grafikart,
+      version: "0.0.1",
+      elixir: "~> 1.2",
+      elixirc_paths: elixirc_paths(Mix.env),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers,
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      test_coverage: [tool: ExCoveralls],
+      deps: deps()]
   end
 
   # Configuration for the OTP application.
@@ -58,7 +60,8 @@ defmodule VideoGrafikart.Mixfile do
       {:distillery, "~> 1.1"},
       {:mix_test_watch, "~> 0.2", only: :dev},
       {:httpoison, "~> 0.12.0"},
-      {:toniq, "~> 1.2"}
+      {:toniq, "~> 1.2"},
+      {:excoveralls, github: "parroty/excoveralls"}
    ]
   end
 end

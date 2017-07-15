@@ -6,6 +6,9 @@ elixir:
   - 1.4.4
 otp_release:
   - 19.2
+env:
+  - MIX_ENV=test
+script: mix coveralls.travis
 before_install:
   - cp config/dev.dist.exs config/dev.exs
   - mysql -e 'CREATE DATABASE grafikart_dev;'

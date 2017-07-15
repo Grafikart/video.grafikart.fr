@@ -83,9 +83,9 @@ defmodule VideoGrafikart.Tutoriel do
   @doc """
   Renvoie le premier paragraphe du contenu
   """
-  @spec thumbnail_path(%__MODULE__{content: String.t}):: String.t
+  @spec first_paragraph(%__MODULE__{content: String.t}):: String.t
   def first_paragraph(%__MODULE__{content: content}) do
-    content |> String.split("\r\n\r\n") |> List.first
+    content |> String.split(~r"(\r\n|\r|\n){2}") |> List.first
   end
 
   @doc """
