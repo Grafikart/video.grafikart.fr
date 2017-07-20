@@ -26,9 +26,9 @@ defmodule Youtube.API do
     %{headers: response} = post!(
       "upload/youtube/v3/videos?uploadType=resumable&part=snippet,status",
       parts,
-      headers ++ ["Content-Type": "application/json; charset=utf-8"]
+      headers ++ [{"Content-Type", "application/json"}]
     )
-    "https://www.googleapis.com/" <> location = response |> Enum.into(%{}) |> Map.get("Location")
+    location = response |> Enum.into(%{}) |> Map.get("Location")
     put!(location, {:file, video})
   end
 
@@ -37,7 +37,12 @@ defmodule Youtube.API do
   """
   @spec thumbnail(String.t, String.t, []):: %HTTPoison.Response{}
   def thumbnail(id, thumbnail, headers) do
-    post!("upload/youtube/v3/thumbnails/set?videoId=#{id}", {:file, thumbnail}, headers)
+    location = "upload/youtube/v3/thumbnails/set?videoId=#{id}&uploadType=resumable"
+      |> post!("", headers)
+      |> Map.get(:headers)
+      |> Enum.into(%{})
+      |> Map.get("Location")
+    %{status_code: 200} = post!(location, {:file, thumbnail}, [{"Content-Type", "image/jpg"}])
   end
 
   @doc """
@@ -46,12 +51,12 @@ defmodule Youtube.API do
   @spec update(String.t, parts, []):: %HTTPoison.Response{}
   def update(id, parts, headers) do
     parts = parts |> Map.merge(%{id: id})
-    put!("youtube/v3/videos?part=snippet,status", parts, headers ++ ["Content-Type": "application/json; charset=utf-8"])
+    put!("youtube/v3/videos?part=snippet,status", parts, headers ++ [{"Content-Type", "application/json"}])
   end
 
-  defp process_url(url) do
-    "https://www.googleapis.com/" <> url
-  end
+
+  defp process_url(url = "https://" <> _), do: url
+  defp process_url(url), do: "https://www.googleapis.com/" <> url
 
   defp process_request_body(body) when is_map(body), do: Poison.encode!(body)
   defp process_request_body(body), do: body
