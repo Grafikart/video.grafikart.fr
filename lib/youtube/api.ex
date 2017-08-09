@@ -61,6 +61,8 @@ defmodule Youtube.API do
   defp process_request_body(body) when is_map(body), do: Poison.encode!(body)
   defp process_request_body(body), do: body
 
+  def process_request_options(options), do: Keyword.put(options, :recv_timeout, 60_000)
+
   defp process_response_body(body) do
     case Poison.decode(body) do
       {:ok, json} -> json
