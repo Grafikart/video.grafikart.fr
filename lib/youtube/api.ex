@@ -42,7 +42,7 @@ defmodule Youtube.API do
       |> Map.get(:headers)
       |> Enum.into(%{})
       |> Map.get("Location")
-    %{status_code: 200} = post!(location, {:file, thumbnail}, [{"Content-Type", "image/jpg"}])
+    %{status_code: 200} = post!(location, {:file, thumbnail}, Enum.concat(headers, [{"Content-Type", "image/jpg"}]))
   end
 
   @doc """
