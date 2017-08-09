@@ -29,7 +29,7 @@ defmodule Youtube.API do
       headers ++ [{"Content-Type", "application/json"}]
     )
     location = response |> Enum.into(%{}) |> Map.get("Location")
-    put!(location, {:file, video})
+    put!(location, {:file, video}, headers)
   end
 
   @doc """
@@ -42,7 +42,7 @@ defmodule Youtube.API do
       |> Map.get(:headers)
       |> Enum.into(%{})
       |> Map.get("Location")
-    %{status_code: 200} = post!(location, {:file, thumbnail}, Enum.concat(headers, [{"Content-Type", "image/jpg"}]))
+    %{status_code: 200} = post!(location, {:file, thumbnail}, headers ++ [{"Content-Type", "image/jpg"}])
   end
 
   @doc """
