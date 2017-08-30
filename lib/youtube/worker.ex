@@ -50,9 +50,10 @@ defmodule Youtube.Worker do
         defaultAudioLanguage: "fr"
       },
       status: %{
-        privacyStatus: if Map.get(tutoriel, :online, false) do "public" else "unlisted" end,
+        privacyStatus: "private",
         embeddable: true,
-        publicStatsViewable: false
+        publicStatsViewable: false,
+        publishAt: DateTime.to_iso8601(tutoriel.created_at)
       }
     }
   end

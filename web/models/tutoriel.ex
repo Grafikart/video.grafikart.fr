@@ -16,6 +16,7 @@ defmodule VideoGrafikart.Tutoriel do
     field :premium, :boolean
     field :online, :boolean
     field :youtube, :string
+    field :created_at, :utc_datetime
 
     belongs_to :category, Category
     belongs_to :formation, Formation
@@ -93,7 +94,7 @@ defmodule VideoGrafikart.Tutoriel do
   """
   @spec position(%__MODULE__{formation: %{chapters: String.t}}):: String.t
   def position(%__MODULE__{id: id, formation: %{chapters: chapters}}) do
-    chapters = String.split(chapters, "\n")
+    chapters = String.split(chapters,  ["\n", "\r", "\r\n"])
       |> Enum.map(fn chapter -> 
         [_, videos] = String.split(chapter, "=")
         String.split(videos, ",")
