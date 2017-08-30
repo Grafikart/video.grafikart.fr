@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Initial setup
+git pull origin master
 MIX_ENV=prod mix deps.get --only prod
 MIX_ENV=prod mix compile
 

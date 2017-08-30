@@ -5,6 +5,8 @@
 .idea
 *.iml
 /data
+/logs
+/web/static
 
 error.log
 mix.lock
