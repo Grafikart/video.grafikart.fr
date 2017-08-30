@@ -25,13 +25,19 @@ defmodule VideoGrafikart.TutorielTest do
   @tutoriel_with_formation Map.merge(@tutoriel, %{
     formation: %Formation{
       name: "Formation de test",
-      slug: "formation-test"
+      slug: "formation-test",
+      chapters: "Introduction=837,838,839,840,841
+        Controllers=842,189,844"
     }
   })
 
   test "it should return a valid title" do
     assert Tutoriel.title(@tutoriel) == "Tutoriel #{@tutoriel.category.name} : #{@tutoriel.name}"
-    assert Tutoriel.title(@tutoriel_with_formation) == "#{@tutoriel_with_formation.formation.name} : #{@tutoriel_with_formation.name}"
+    assert Tutoriel.title(@tutoriel_with_formation) == "#{@tutoriel_with_formation.formation.name} 7/_ : #{@tutoriel_with_formation.name}"
+  end
+
+  test "it should get the right position" do
+    assert Tutoriel.position(@tutoriel_with_formation) == "7/_"
   end
 
   test "it should return a good url" do

@@ -22,7 +22,9 @@ defmodule Vidme.APITest do
     videos |> Enum.map(&Map.get(&1, "video_id")) |> Enum.map(&Vidme.API.delete(&1))
   end
 
+  @tag :skip
   test "it should return the body" do
+    # Vidme.Worker.perform(21)
     %{body: %{"videos" => videos}} = API.get!("videos/?user=16979442&limit=1")
     assert Enum.count(videos) == 1
     # videos = get_videos_from_api() |> Enum.map(())

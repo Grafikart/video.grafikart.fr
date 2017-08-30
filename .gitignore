@@ -7,6 +7,7 @@
 /data
 
 error.log
+mix.lock
 
 erl_crash.dump
 

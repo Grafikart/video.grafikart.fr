@@ -18,7 +18,6 @@ defmodule Vidme.API do
   """
   @spec upload(%{title: String.t, video: String.t, description: String.t, private: String.t}):: {:ok, %{vidme_id: String.t, vidme_url: String.t}}
   def upload(video) do
-    IO.inspect(video.video)
     %{body: body} = post!(
       "video/upload",
       {:multipart, [
