@@ -28,7 +28,8 @@ defmodule VideoGrafikart.Tutoriel do
   @spec title(%__MODULE__{name: String.t, category: %Category{name: String.t}}):: String.t
   def title(tutoriel = %__MODULE__{name: name, category: %Category{name: category}}) do
     if tutoriel.formation do
-      "#{tutoriel.formation.name} #{position(tutoriel)} : #{name}"
+      [index, total] = position(tutoriel)
+      "#{tutoriel.formation.name} (#{index}/_) : #{name}"
     else
       "Tutoriel #{category} : #{name}"
     end
@@ -92,7 +93,7 @@ defmodule VideoGrafikart.Tutoriel do
   @doc """
   Renvoie la position de la vidéo dans une formation
   """
-  @spec position(%__MODULE__{formation: %{chapters: String.t}}):: String.t
+  @spec position(%__MODULE__{formation: %{chapters: String.t}}):: [integer]
   def position(%__MODULE__{id: id, formation: %{chapters: chapters}}) do
     chapters = String.split(chapters,  ["\n", "\r", "\r\n"])
       |> Enum.map(fn chapter -> 
@@ -102,8 +103,7 @@ defmodule VideoGrafikart.Tutoriel do
       |> List.flatten()
     index = Enum.find_index(chapters, fn video_id -> video_id == to_string(id) end) + 1
     count = Enum.count(chapters)
-    "#{index}/#{count}"
-    "#{index}/_"
+    [index, count]
   end
 
   @doc """
