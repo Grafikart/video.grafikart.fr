@@ -33,7 +33,7 @@ defmodule VideoGrafikart.TutorielTest do
 
   test "it should return a valid title" do
     assert Tutoriel.title(@tutoriel) == "Tutoriel #{@tutoriel.category.name} : #{@tutoriel.name}"
-    assert Tutoriel.title(@tutoriel_with_formation) == "#{@tutoriel_with_formation.formation.name} (7/_) : #{@tutoriel_with_formation.name}"
+    assert Tutoriel.title(@tutoriel_with_formation) == "#{@tutoriel_with_formation.formation.name} (7/8) : #{@tutoriel_with_formation.name}"
   end
 
   test "it should get the right position" do

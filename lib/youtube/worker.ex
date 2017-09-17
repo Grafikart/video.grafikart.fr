@@ -50,10 +50,10 @@ defmodule Youtube.Worker do
         defaultAudioLanguage: "fr"
       },
       status: %{
-        privacyStatus: "private",
+        privacyStatus: (if (Tutoriel.public?(tutoriel)), do: "public", else: "private"),
         embeddable: true,
         publicStatsViewable: false,
-        publishAt: DateTime.to_iso8601(tutoriel.created_at)
+        publishAt: (if (Tutoriel.public?(tutoriel)), do: nil, else: DateTime.to_iso8601(tutoriel.created_at))
       }
     }
   end

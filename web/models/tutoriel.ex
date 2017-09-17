@@ -29,7 +29,7 @@ defmodule VideoGrafikart.Tutoriel do
   def title(tutoriel = %__MODULE__{name: name, category: %Category{name: category}}) do
     if tutoriel.formation do
       [index, total] = position(tutoriel)
-      "#{tutoriel.formation.name} (#{index}/_) : #{name}"
+      "#{tutoriel.formation.name} (#{index}/#{total}) : #{name}"
     else
       "Tutoriel #{category} : #{name}"
     end
@@ -104,6 +104,14 @@ defmodule VideoGrafikart.Tutoriel do
     index = Enum.find_index(chapters, fn video_id -> video_id == to_string(id) end) + 1
     count = Enum.count(chapters)
     [index, count]
+  end
+  
+  @doc """
+  La vidéo est public ?
+  """
+  @spec public?(%__MODULE__{}):: boolean
+  def public?(%__MODULE__{created_at: created_at}) do
+    DateTime.compare(DateTime.utc_now, created_at) == :gt
   end
 
   @doc """

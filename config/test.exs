@@ -1,5 +1,6 @@
 use Mix.Config
 
+config :toniq, redis_url: "redis://127.0.0.1:6379/0"
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :video_grafikart, VideoGrafikart.Endpoint,
