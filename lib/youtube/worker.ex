@@ -28,7 +28,7 @@ defmodule Youtube.Worker do
       tutoriel |> Ecto.Changeset.change(%{youtube: youtube_id}) |> Repo.update!()
     else
       # On met à jour les informations
-      %{body: _} = API.update(tutoriel.youtube, parts, headers)
+      %{body: %{"id" => youtube_id}} = API.update(tutoriel.youtube, parts, headers)
       tutoriel
     end
     # On upload la miniature
