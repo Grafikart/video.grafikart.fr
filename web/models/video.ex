@@ -15,10 +15,10 @@ defmodule VideoGrafikart.Video do
           file_size ->
             range = get_range(headers, file_size)
             conn
-              |> Plug.Conn.put_resp_header("Accept-Ranges", "bytes")
-              |> Plug.Conn.put_resp_header("Content-Length", "#{range.size}")
-              |> Plug.Conn.put_resp_header("Content-Type", "video/mp4")
-              |> Plug.Conn.put_resp_header("Content-Range", "bytes #{range.start}-#{range.end}/#{file_size}")
+              |> Plug.Conn.put_resp_header("accept-ranges", "bytes")
+              |> Plug.Conn.put_resp_header("content-length", "#{range.size}")
+              |> Plug.Conn.put_resp_header("content-type", "video/mp4")
+              |> Plug.Conn.put_resp_header("content-range", "bytes #{range.start}-#{range.end}/#{file_size}")
               |> Plug.Conn.send_file(206, full_path, range.start, range.size)
         end
       else
