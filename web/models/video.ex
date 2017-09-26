@@ -63,7 +63,7 @@ defmodule VideoGrafikart.Video do
       case List.keyfind(headers, "range", 0) do
         {"range", "bytes=" <> range} -> 
           [range_start, range_end] = String.split(range, "-") |> Enum.map(&to_integer/1)
-          range_end = if range_end == nil, do: file_size, else: range_end
+          range_end = if range_end == nil, do: file_size - 1, else: range_end
           %{start: range_start, end: range_end, size: range_end - range_start + 1}
         nil -> %{start: 0, end: file_size - 1, size: file_size}
       end
