@@ -19,7 +19,6 @@ defmodule VideoGrafikart.VideoController do
   def sync(conn, %{"token" => token, "id" => id}) do
     secret = Application.get_env(:guardian, Guardian) |> Keyword.get(:secret_key)
     if token == secret do
-      # Toniq.enqueue(Vidme.Worker, id)
       Toniq.enqueue(Youtube.Worker, id)
       conn |> text("Uploading #{id}")
     else

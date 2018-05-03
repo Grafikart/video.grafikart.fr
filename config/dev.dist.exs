@@ -13,9 +13,6 @@ config :video_grafikart, VideoGrafikart.Endpoint,
   check_origin: false,
   watchers: []
 
-config :video_grafikart, :vidme,
-  access_token: "XXXXXXXXXXX"
-
 config :video_grafikart, :paths,
   video: "/home/jonathan/videos/",
   thumbnail: "/home/jonathan/tutoriels/"

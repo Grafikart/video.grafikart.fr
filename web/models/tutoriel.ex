@@ -10,8 +10,6 @@ defmodule VideoGrafikart.Tutoriel do
     field :video, :string
     field :content, :string
     field :slug, :string
-    field :vidme_id, :string
-    field :vidme_url, :string
     field :user_id, :integer
     field :premium, :boolean
     field :online, :boolean
@@ -119,7 +117,7 @@ defmodule VideoGrafikart.Tutoriel do
   """
   @spec changeset(struct, struct):: Ecto.Changeset.t
   def changeset(struct, params \\ %{}) do
-    struct |> cast(params, [:vidme_id, :vidme_url])
+    struct |> cast(params, [])
   end
 
 

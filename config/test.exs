@@ -12,9 +12,6 @@ config :logger, level: :warn
 
 config :video_grafikart, :video_path, "test/data/"
 
-config :video_grafikart, :vidme,
-  access_token: "XXXXXXXXXXX"
-
 config :video_grafikart, :paths,
   video: "test/data/",
   thumbnail: "test/data/"
