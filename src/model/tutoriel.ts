@@ -37,12 +37,15 @@ export default class Tutoriel {
     return this.createdAt.getTime() < new Date().getTime()
   }
 
+  get excerpt (): string {
+    return this.content.split(/(\r\n|\r|\n){2}/)[0]
+  }
+
   get description (): string {
-    let excerpt = this.content.split(/(\r\n|\r|\n){2}/)[0]
     return `Plus d'infos : ${this.url}
-      
-      ${excerpt}
-      
+
+      ${this.excerpt}
+
       Retrouvez tous les tutoriels sur https://www.grafikart.fr`
   }
 

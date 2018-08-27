@@ -22,8 +22,6 @@
   "license": "ISC",
   "devDependencies": {
     "@types/axios": "^0.14.0",
-    "@types/chai": "^4.1.4",
-    "@types/chai-spies": "^1.0.0",
     "@types/dotenv": "^4.0.3",
     "@types/express-jwt": "^0.0.40",
     "@types/jest": "^23.3.1",
@@ -31,7 +29,6 @@
     "chai": "^4.1.2",
     "chai-spies": "^1.0.0",
     "concurrently": "^3.6.1",
-    "dts-gen": "^0.5.7",
     "jest": "^23.4.2",
     "nodemon": "^1.18.3",
     "ts-jest": "^23.1.3",

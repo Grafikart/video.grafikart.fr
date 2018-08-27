@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import * as fs from 'fs'
-import { upload } from '../controllers/tutoriel'
 
 interface YoutubeResponse {
   kind: 'youtube#video',
@@ -32,13 +31,7 @@ interface YoutubeResponse {
 
 export default class Youtube {
 
-  private options: {
-    client_id: string
-    client_secret: string
-    refresh_token: string
-  }
   private axios: AxiosInstance
-  private accessToken: string
 
   /**
    * Génère une nouvelle instance à partir d'un refresh token
