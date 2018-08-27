@@ -1,22 +1,8 @@
-language: elixir
-services:
-  - redis-server
-elixir:
-  - 1.3.4
-  - 1.4
-  - 1.5
-otp_release:
-  - 19.3
-  - 20.0
-matrix:
-  allow_failures:
-    - otp_release: 20.0
-    - elixir: 1.5
-env:
-  - MIX_ENV=test
+language: node_js
+node_js:
+  - "8"
+  - "10"
+cache: yarn
 script:
-  - "MIX_ENV=test mix do deps.get, test && mix compile && mix coveralls.travis"
-before_install:
-  - cp config/dev.dist.exs config/dev.exs
-  - mysql -e 'CREATE DATABASE grafikart_dev;'
-  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+  - yarn install --silent
+  - make test

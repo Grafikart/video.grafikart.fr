@@ -1,14 +1,8 @@
-# Video.grafikart.fr
+# Discordbot
 
-[![Build Status](https://travis-ci.org/Grafikart/video.grafikart.fr.svg?branch=master)](https://travis-ci.org/Grafikart/video.grafikart.fr) [![Coverage Status](https://coveralls.io/repos/github/Grafikart/video.grafikart.fr/badge.svg?branch=master)](https://coveralls.io/github/Grafikart/video.grafikart.fr?branch=master)
+[![Build Status](https://travis-ci.org/Grafikart/grafibot.svg)](https://travis-ci.org/Grafikart/grafibot)
 
-Le but de ce code est de créer un serveur servant à distribuer les vidéos
-premiums sur grafikart.fr et utilisant un token JWT pour gérer l'accès au service.
+Code utilisé pour gérer le bot sur le channel discord de Grafikart.fr
 
-## A propos de phoenix
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+Ce code n'a pas pour but d'être générique et de convenir à un autre chanel que Grafikart.fr mais
+si vous avez des idées qui pourraient améliorer le fonctionnement n'hésitez pas à créer une issue ou faire une PR.
