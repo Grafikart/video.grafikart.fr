@@ -21,6 +21,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/chai": "^4.1.4",
     "@types/chai-spies": "^1.0.0",
     "@types/dotenv": "^4.0.3",
@@ -40,8 +41,11 @@
   },
   "dependencies": {
     "@types/express": "^4.16.0",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "express-jwt": "^5.3.1"
+    "express-jwt": "^5.3.1",
+    "neo4j-driver": "^1.6.3"
   }
 }

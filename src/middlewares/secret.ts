@@ -7,11 +7,10 @@ import { NextFunction, Request, Response } from 'express'
  * @param next
  */
 export default function (req: Request, res: Response, next: NextFunction): any {
-  let premium = req.user.premium
-  if (premium && Date.parse(premium) > new Date().getTime()) {
+  if (req.body.secret === process.env.JWT_SECRET) {
     next()
   } else {
-    let error = new Error('Utilisateur non premium')
+    let error = new Error('Accès interdit')
     error.name = 'UnauthorizedError'
     next(error)
   }

@@ -1,8 +1,5 @@
-# Discordbot
+# video.grafikart.fr
 
-[![Build Status](https://travis-ci.org/Grafikart/grafibot.svg)](https://travis-ci.org/Grafikart/grafibot)
+[![Build Status](https://travis-ci.org/Grafikart/video.grafikart.fr.svg)](https://travis-ci.org/Grafikart/video.grafikart.fr)
 
-Code utilisé pour gérer le bot sur le channel discord de Grafikart.fr
-
-Ce code n'a pas pour but d'être générique et de convenir à un autre chanel que Grafikart.fr mais
-si vous avez des idées qui pourraient améliorer le fonctionnement n'hésitez pas à créer une issue ou faire une PR.
+Le but de ce code est de créer un serveur servant à distribuer les vidéos premiums sur grafikart.fr et utilisant un token JWT pour gérer l'accès au service.
