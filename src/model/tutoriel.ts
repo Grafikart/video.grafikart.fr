@@ -44,9 +44,9 @@ export default class Tutoriel {
   get description (): string {
     return `Plus d'infos : ${this.url}
 
-      ${this.excerpt}
+${this.excerpt}
 
-      Retrouvez tous les tutoriels sur https://www.grafikart.fr`
+Retrouvez tous les tutoriels sur https://www.grafikart.fr`
   }
 
   get videoPath (): string {
