@@ -10,7 +10,7 @@ const uploadTutoriel = async function (tutoriel: Tutoriel) {
       process.env.CLIENT_SECRET,
       process.env.REFRESH_TOKEN
     )
-  if (tutoriel.youtube === null) {
+  if (tutoriel.youtube === null || tutoriel.youtube === '') {
     let response = await youtube.upload(tutoriel.videoPath, tutoriel.youtubeParts)
     await Tutoriels.updateYoutube(tutoriel.id, response.id)
   } else {

@@ -53,6 +53,7 @@ export default class Youtube {
     this.axios = axios.create({
       baseURL: 'https://www.googleapis.com/',
       timeout: 10000,
+      maxContentLength: Math.pow(2, 31),
       headers: {
         Authorization: 'Bearer ' + accessToken
       }
@@ -90,7 +91,7 @@ export default class Youtube {
   /**
    * Envoie la miniature
    * @param id
-   * @param parts
+   * @param file
    */
   public async thumbnail (id: string, file: string): Promise<YoutubeResponse> {
     const url = `upload/youtube/v3/thumbnails/set?videoId=${id}&uploadType=resumable`
