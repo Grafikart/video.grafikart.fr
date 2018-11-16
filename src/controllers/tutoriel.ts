@@ -12,6 +12,7 @@ const uploadTutoriel = async function (tutoriel: Tutoriel) {
     )
   if (tutoriel.youtube === null || tutoriel.youtube === '') {
     let response = await youtube.upload(tutoriel.videoPath, tutoriel.youtubeParts)
+    tutoriel.youtube = response.id
     await Tutoriels.updateYoutube(tutoriel.id, response.id)
   } else {
     await youtube.update(tutoriel.youtube, tutoriel.youtubeParts)
