@@ -25,6 +25,6 @@ export const upload = async function (req: Request, res: Response) {
     res.send('hello')
     uploadTutoriel(tutoriel).catch(console.error)
   } catch (e) {
-    res.send(e.message)
+    res.status(500).send(e.message)
   }
 }
