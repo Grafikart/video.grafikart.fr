@@ -52,7 +52,7 @@ export default class Youtube {
   constructor (accessToken: string) {
     this.axios = axios.create({
       baseURL: 'https://www.googleapis.com/',
-      timeout: 10000,
+      timeout: 600000,
       maxContentLength: Math.pow(2, 31),
       headers: {
         Authorization: 'Bearer ' + accessToken
