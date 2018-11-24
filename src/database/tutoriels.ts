@@ -28,12 +28,21 @@ export interface INodeFormation extends Node {
 
 export default class Tutoriels {
 
+  static async findAll (): Promise<Tutoriel[]> {
+    return this.query('(t:Tutoriel)')
+  }
+
   static async find (id: number): Promise<Tutoriel> {
+    let tutoriels = await this.query('(t:Tutoriel {uuid: {id}})', { id })
+    return tutoriels[0]
+  }
+
+  static async query (node: string, params: object = null): Promise<Tutoriel[]> {
     let driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', process.env.DB_PASSWORD))
     let session = driver.session()
     try {
       let record = await session.run(`
-        MATCH (t:Tutoriel {uuid: {id}})
+        MATCH ${node}<-[:CREATE]-(u:User {uuid: 1})
         OPTIONAL MATCH (t)-[:REQUIRE|:TEACH]->(techs:Technology)
         OPTIONAL MATCH (t)<-[:INCLUDE*]-(f:Formation)
         OPTIONAL MATCH (sibling:Tutoriel)<-[:INCLUDE*]-(f)
@@ -43,29 +52,30 @@ export default class Tutoriels {
         f {.name, .slug},
         count(distinct sibling) as siblings,
         count(distinct r) as previous,
-        collect(techs.name) as techs`, { id })
+        collect(techs.name) as techs`, params)
       if (record.records.length < 1) {
         throw new NotFoundRecord()
       }
       session.close()
-      let r = record.records[0]
-      let t: INodeTutoriel = r.get('t')
-      let f: INodeFormation = r.get('f')
-      let tutoriel = new Tutoriel()
-      tutoriel.name = t.name
-      tutoriel.slug = t.slug
-      tutoriel.id = t.uuid
-      tutoriel.youtube = t.youtube
-      tutoriel.createdAt = new Date(t.created_at * 1000)
-      tutoriel.video = t.video
-      tutoriel.content = t.content
-      tutoriel.image = t.image
-      if (f) {
-        tutoriel.formation = { chapters: r.get('siblings') * 1, ...f }
-        tutoriel.position = r.get('previous') * 1 + 1
-      }
-      tutoriel.technologies = r.get('techs')
-      return tutoriel
+      return record.records.map(r => {
+        let t: INodeTutoriel = r.get('t')
+        let f: INodeFormation = r.get('f')
+        let tutoriel = new Tutoriel()
+        tutoriel.name = t.name
+        tutoriel.slug = t.slug
+        tutoriel.id = t.uuid
+        tutoriel.youtube = t.youtube
+        tutoriel.createdAt = new Date(t.created_at * 1000)
+        tutoriel.video = t.video
+        tutoriel.content = t.content
+        tutoriel.image = t.image
+        if (f) {
+          tutoriel.formation = { chapters: r.get('siblings') * 1, ...f }
+          tutoriel.position = r.get('previous') * 1 + 1
+        }
+        tutoriel.technologies = r.get('techs')
+        return tutoriel
+      })
     } catch (e) {
       session.close()
       throw e

@@ -26,10 +26,11 @@ export default class Tutoriel {
   }
 
   get title (): string {
+    let name = this.name.replace(/[<>]/g, '')
     if (this.formation) {
-      return `${this.formation.name} (${this.position}/${this.formation.chapters}) : ${this.name}`
+      return `${this.formation.name} (${this.position}/${this.formation.chapters}) : ${name}`
     } else {
-      return `Tutoriel ${this.technologies.join('/')} : ${this.name}`
+      return `Tutoriel ${this.technologies.join('/')} : ${name}`
     }
   }
 
@@ -38,15 +39,28 @@ export default class Tutoriel {
   }
 
   get excerpt (): string {
-    return this.content.split(/(\r\n|\r|\n){2}/)[0]
+    if (this.content.startsWith('<')) {
+      return ''
+    }
+    return this.content
+      .split(/(\r\n|\r|\n){2}/)[0]
+      .replace(/[<>]/g, '')
   }
 
   get description (): string {
-    return `Plus d'infos : ${this.url}
+    return `Article ► ${this.url}
+Abonnez-vous ► http://bit.ly/GrafikartSubscribe
 
 ${this.excerpt}
 
-Retrouvez tous les tutoriels sur https://www.grafikart.fr`
+Soutenez Grafikart:
+Devenez premium ► https://grafikart.fr/premium
+Donnez via Utip ► https://utip.io/grafikart
+
+Retrouvez Grafikart sur:
+Le site ► https://www.grafikart.fr
+Twitter ► https://twitter.com/grafikart_fr
+Discord ► https://grafikart.fr/tchat`
   }
 
   get videoPath (): string {
