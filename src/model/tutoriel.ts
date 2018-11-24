@@ -22,7 +22,7 @@ export default class Tutoriel {
   image: string
 
   get url (): string {
-    return `https://www.grafikart.fr/tutoriels/${this.slug}-${this.id}`
+    return `https://grafikart.fr/tutoriels/${this.slug}-${this.id}`
   }
 
   get title (): string {
@@ -49,7 +49,7 @@ export default class Tutoriel {
 
   get description (): string {
     return `Article ► ${this.url}
-Abonnez-vous ► http://bit.ly/GrafikartSubscribe
+Abonnez-vous ► https://bit.ly/GrafikartSubscribe
 
 ${this.excerpt}
 
@@ -58,7 +58,7 @@ Devenez premium ► https://grafikart.fr/premium
 Donnez via Utip ► https://utip.io/grafikart
 
 Retrouvez Grafikart sur:
-Le site ► https://www.grafikart.fr
+Le site ► https://grafikart.fr
 Twitter ► https://twitter.com/grafikart_fr
 Discord ► https://grafikart.fr/tchat`
   }

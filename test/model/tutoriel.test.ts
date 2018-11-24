@@ -42,7 +42,7 @@ condimentum sed dolor. Duis rhoncus arcu a ligula finibus.`
   })
 
   it('should get url', function () {
-    expect(t.url).toBe('https://www.grafikart.fr/tutoriels/video-test-300')
+    expect(t.url).toBe('https://grafikart.fr/tutoriels/video-test-300')
   })
 
 })
