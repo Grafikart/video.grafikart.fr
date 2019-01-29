@@ -10,20 +10,17 @@ const uploadTutoriel = async function (tutoriel: Tutoriel) {
       process.env.CLIENT_SECRET,
       process.env.REFRESH_TOKEN
     )
-  if (tutoriel.youtube === null || tutoriel.youtube === '') {
-    let response = await youtube.upload(tutoriel.videoPath, tutoriel.youtubeParts)
-    tutoriel.youtube = response.id
-    if (tutoriel.playlist) {
-      await youtube.addtoPlaylist(tutoriel.youtube, tutoriel.playlist)
-    }
-    await Tutoriels.updateYoutube(tutoriel.id, response.id)
-  } else {
-    await youtube.update(tutoriel.youtube, tutoriel.youtubeParts)
-  }
   try {
+    if (tutoriel.youtube === null || tutoriel.youtube === '') {
+      let response = await youtube.upload(tutoriel.videoPath, tutoriel.youtubeParts)
+      tutoriel.youtube = response.id
+      await Tutoriels.updateYoutube(tutoriel.id, response.id)
+    } else {
+      await youtube.update(tutoriel.youtube, tutoriel.youtubeParts)
+    }
     await youtube.thumbnail(tutoriel.youtube, tutoriel.thumbnailPath)
   } catch (e) {
-    console.log(e)
+    console.error(`API Error ${e.config.url} => ${e.response.data.message}`, e.response.data.error.errors)
   }
 }
 

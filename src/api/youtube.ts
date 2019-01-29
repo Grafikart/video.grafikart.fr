@@ -84,8 +84,7 @@ export default class Youtube {
       {
         'snippet.playlistId': playlist,
         'snippet.resourceId.kind': 'youtube#video',
-        'snippet.resourceId.videoId': id,
-        'snippet.position': ''
+        'snippet.resourceId.videoId': id
       }
     )
     return response.data
