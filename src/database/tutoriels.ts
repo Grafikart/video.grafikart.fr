@@ -50,7 +50,7 @@ export default class Tutoriels {
         OPTIONAL MATCH (sibling)<-[r:REQUIRE*]-(t)
         RETURN
         t {.name, .slug, .uuid, .created_at, .video, .content, .youtube, .image},
-        f {.name, .slug, youtube_playlist},
+        f {.name, .slug, .youtube_playlist},
         count(distinct sibling) as siblings,
         count(distinct r) as previous,
         collect(techs.name) as techs`, params)
