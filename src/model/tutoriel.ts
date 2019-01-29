@@ -28,7 +28,7 @@ export default class Tutoriel {
   get title (): string {
     let name = this.name.replace(/[<>]/g, '')
     if (this.formation) {
-      return `${this.formation.name} (${this.position}/${this.formation.chapters}) : ${name}`
+      return `${this.formation.name} : Chapitre ${this.position}, ${name}`
     } else {
       return `Tutoriel ${this.technologies.join('/')} : ${name}`
     }
