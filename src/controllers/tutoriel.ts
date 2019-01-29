@@ -23,7 +23,7 @@ const uploadTutoriel = async function (tutoriel: Tutoriel) {
       await youtube.thumbnail(tutoriel.youtube, tutoriel.thumbnailPath)
     }
   } catch (e) {
-    console.error(`API Error ${e.config.url} => ${e.response.data.message}`, e.response.data.error.errors)
+    console.error(`API Error ${e.config.url} => ${e.response.data.message}`, e.response.data.error.errors, e.config.data)
   }
 }
 
