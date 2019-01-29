@@ -24,6 +24,7 @@ export interface INodeTutoriel extends Node {
 export interface INodeFormation extends Node {
   name: string
   slug: string
+  youtube_playlist: string
 }
 
 export default class Tutoriels {
@@ -49,7 +50,7 @@ export default class Tutoriels {
         OPTIONAL MATCH (sibling)<-[r:REQUIRE*]-(t)
         RETURN
         t {.name, .slug, .uuid, .created_at, .video, .content, .youtube, .image},
-        f {.name, .slug},
+        f {.name, .slug, youtube_playlist},
         count(distinct sibling) as siblings,
         count(distinct r) as previous,
         collect(techs.name) as techs`, params)
@@ -72,6 +73,7 @@ export default class Tutoriels {
         if (f) {
           tutoriel.formation = { chapters: r.get('siblings') * 1, ...f }
           tutoriel.position = r.get('previous') * 1 + 1
+          tutoriel.playlist = f.youtube_playlist
         }
         tutoriel.technologies = r.get('techs')
         return tutoriel

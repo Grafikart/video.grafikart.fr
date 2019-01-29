@@ -20,6 +20,7 @@ export default class Tutoriel {
   position: number
   youtube: string
   image: string
+  playlist: string
 
   get url (): string {
     return `https://grafikart.fr/tutoriels/${this.slug}-${this.id}`

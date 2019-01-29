@@ -13,11 +13,18 @@ const uploadTutoriel = async function (tutoriel: Tutoriel) {
   if (tutoriel.youtube === null || tutoriel.youtube === '') {
     let response = await youtube.upload(tutoriel.videoPath, tutoriel.youtubeParts)
     tutoriel.youtube = response.id
+    if (tutoriel.playlist) {
+      await youtube.addtoPlaylist(tutoriel.youtube, tutoriel.playlist)
+    }
     await Tutoriels.updateYoutube(tutoriel.id, response.id)
   } else {
     await youtube.update(tutoriel.youtube, tutoriel.youtubeParts)
   }
-  await youtube.thumbnail(tutoriel.youtube, tutoriel.thumbnailPath)
+  try {
+    await youtube.thumbnail(tutoriel.youtube, tutoriel.thumbnailPath)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export const upload = async function (req: Request, res: Response) {

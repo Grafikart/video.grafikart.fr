@@ -76,6 +76,22 @@ export default class Youtube {
   }
 
   /**
+   * Ajoute le tutoriel à la playlist
+   */
+  public async addtoPlaylist (id: string, playlist: string): Promise<YoutubeResponse> {
+    const response: AxiosResponse<YoutubeResponse> = await this.axios.post(
+      'youtube/v3/playlistItems?part=snippet',
+      {
+        'snippet.playlistId': playlist,
+        'snippet.resourceId.kind': 'youtube#video',
+        'snippet.resourceId.videoId': id,
+        'snippet.position': ''
+      }
+    )
+    return response.data
+  }
+
+  /**
    * Met à jour les informations d'une vidéo
    * @param id
    * @param parts
