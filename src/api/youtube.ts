@@ -82,9 +82,13 @@ export default class Youtube {
     const response: AxiosResponse<YoutubeResponse> = await this.axios.post(
       'youtube/v3/playlistItems?part=snippet',
       {
-        'snippet.playlistId': playlist,
-        'snippet.resourceId.kind': 'youtube#video',
-        'snippet.resourceId.videoId': id
+        snippet: {
+          playlistId: playlist,
+          resourceId: {
+            kind: 'youtube#video',
+            videoId: id
+          }
+        }
       }
     )
     return response.data
