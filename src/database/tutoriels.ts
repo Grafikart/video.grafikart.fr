@@ -84,15 +84,16 @@ export default class Tutoriels {
     }
   }
 
-  static async updateYoutube (id: number, youtube: string) {
+  static async updateYoutube (id: number, youtube: string): Promise<object> {
     let driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', process.env.DB_PASSWORD))
     let session = driver.session()
-    session.run(`
+    let response = await session.run(`
         MATCH (t:Tutoriel {uuid: {id}})
         SET t.youtube = {youtube}
-        RETURN t {.uuid}
+        RETURN t {.uuid, .youtube}
         `, { id, youtube })
     session.close()
+    return response
   }
 
 }
