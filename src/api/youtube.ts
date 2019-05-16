@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import * as fs from 'fs'
+import S3 from 'aws-sdk/clients/s3'
 
 interface YoutubeResponse {
   kind: 'youtube#video',
@@ -66,11 +67,17 @@ export default class Youtube {
    * @param parts
    */
   public async upload (file: string, parts: object): Promise<YoutubeResponse> {
+    const s3 = new S3({
+      secretAccessKey: process.env.S3_SECRET,
+      accessKeyId: process.env.S3_ACCESS,
+      endpoint: 's3.fr-par.scw.cloud',
+      region: 'fr-par'
+    })
     const url = 'upload/youtube/v3/videos?uploadType=resumable&part=' + Object.keys(parts).join(',')
     const createResponse = await this.axios.post(url, parts)
     const uploadResponse: AxiosResponse<YoutubeResponse> = await this.axios.put(
       createResponse.headers.location,
-      fs.createReadStream(file)
+      s3.getObject({Bucket: 'grafikart', Key: file}).createReadStream()
     )
     return uploadResponse.data
   }
