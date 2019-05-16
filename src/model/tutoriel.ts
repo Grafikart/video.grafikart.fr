@@ -65,7 +65,7 @@ Discord ► https://grafikart.fr/tchat`
   }
 
   get videoPath (): string {
-    return 'videos/' + this.video
+    return path.join(process.env.VIDEO, this.video)
   }
 
   get thumbnailPath (): string {
