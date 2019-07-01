@@ -26,7 +26,7 @@
     "@types/express-jwt": "^0.0.40",
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.1",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "chai-spies": "^1.0.0",
     "concurrently": "^3.6.1",
     "jest": "^23.4.2",
