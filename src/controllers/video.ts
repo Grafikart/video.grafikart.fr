@@ -9,7 +9,7 @@ import * as fs from 'fs'
  */
 export const stream = function (req: Request, res: Response) {
   let video = req.query.path as string
-  if (video.match(/^([a-z0-9-_ ]+\/)?[a-z0-9-_ ]+\.(mp4|mov)$/i) === null) {
+  if (video.match(/^([a-z0-9-_ ]+\/){0,3}[a-z0-9-_ ]+\.(mp4|mov)$/i) === null) {
     return res.status(403).send()
   }
   video = path.join(process.env.VIDEO, video)
