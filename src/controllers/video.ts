@@ -15,7 +15,7 @@ export const stream = function (req: Request, res: Response) {
   video = path.join(process.env.VIDEO, video)
   const stat = fs.statSync(video)
   const fileSize = stat.size
-  const range = req.headers.range as string
+  const range = req.headers.range
 
   if (range) {
     const parts = range.replace(/bytes=/, '').split('-')

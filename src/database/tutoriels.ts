@@ -57,7 +57,7 @@ export default class Tutoriels {
       if (record.records.length < 1) {
         throw new NotFoundRecord()
       }
-      session.close()
+      session.close().catch(console.error)
       return record.records.map(r => {
         let t: INodeTutoriel = r.get('t')
         let f: INodeFormation = r.get('f')
@@ -79,7 +79,7 @@ export default class Tutoriels {
         return tutoriel
       })
     } catch (e) {
-      session.close()
+      session.close().catch(console.error)
       throw e
     }
   }
@@ -92,7 +92,7 @@ export default class Tutoriels {
         SET t.youtube = {youtube}
         RETURN t {.uuid, .youtube}
         `, { id, youtube })
-    session.close()
+    session.close().catch(console.error)
     return response
   }
 
